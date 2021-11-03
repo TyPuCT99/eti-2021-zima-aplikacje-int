@@ -35,11 +35,10 @@ class Layout
      */
     public function __construct(
         Request $request,
-        string  $page,
-        string  $name = 'default',
-        string  $title = 'APSL Website!'
-    )
-    {
+        string $page,
+        string $name = 'default',
+        string $title = 'APSL Website!'
+    ) {
         $this->page = $page;
         $this->name = $name;
         $this->title = $title;
