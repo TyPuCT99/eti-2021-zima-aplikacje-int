@@ -2,6 +2,8 @@
 
 namespace App;
 
+use App\Controllers\SimpleController;
+
 class ServiceContainer
 {
     private static $instance;
@@ -23,7 +25,11 @@ class ServiceContainer
             'body'=> [
                 'path'=>'/body',
                 'page'=>'body'
-            ]
+            ],
+                'responseTest'=> [
+                    'path' => '/jsonTest',
+                    'controller' => new  SimpleController()
+    ]
         ]
         );
 

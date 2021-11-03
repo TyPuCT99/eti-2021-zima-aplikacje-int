@@ -2,6 +2,8 @@
 
 namespace App;
 
+use App\Controllers\ControllerInterface;
+
 /**
  * Application entry point.
  */
@@ -11,6 +13,7 @@ class App
      * @var string
      */
     private $page;
+
     /**
      * @var Request
      */
@@ -26,10 +29,19 @@ class App
         $serviceContainer = ServiceContainer::getInstance();
         $router = $serviceContainer->get('router');
 
-        $page = $router->match($this->request);
+        /** @var Router $router */
+        $matchedRoute = $router->match($this->request);
+        if ($matchedRoute instanceof ControllerInterface) {
+            $response = $matchedRoute($this->request);
+            foreach ($response->getHeaders() as $header) {
+                header($header);
+            }
 
-        $layout = new Layout($this->request, $page);
+            echo $response->getBody();
 
-        $layout->render();
+        } else {
+            $layout = new Layout($this->request, $matchedRoute);
+            $layout->render();
+        }
     }
 }

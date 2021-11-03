@@ -29,7 +29,7 @@ class Router
             $params = $this->checkRoute($routeSegments, $requestPathSegments);
             if ($params!== false) {
                 $request->setPathParameters($params);
-                return $routeConfig['page'];
+                return $routeConfig['controller'] ?? $routeConfig['page'];
             }
         }
         throw new \Exception('Page not found! Sorry!');
