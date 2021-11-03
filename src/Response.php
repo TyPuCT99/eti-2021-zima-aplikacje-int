@@ -19,7 +19,7 @@ private $status;
     public function getHeaders(){
         $genericHeaders = [
             sprintf('HTTP/1.1 %s', $this->status),
-            sprintf('Content-Length %s', strlen($this->body))
+            sprintf('Content-Length: %s', strlen($this->body))
         ];
         return array_merge($genericHeaders, $this->headers);
 
