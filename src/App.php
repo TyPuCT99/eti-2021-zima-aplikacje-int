@@ -11,6 +11,10 @@ class App
      * @var string
      */
     private $page;
+    /**
+     * @var Request
+     */
+    private $request;
 
     /**
      * Uruchamia aplikację.
@@ -18,11 +22,11 @@ class App
     public function run(): void
     {
         //$this->processRouting();
-        $request = Request::initialize();
+        $this->request = Request::initialize();
         $router = new Router($this->getRoutes());
-        $page = $router->match($request);
+        $page = $router->match($this->request);
 
-        $layout = new Layout($page);
+        $layout = new Layout($this->request, $page);
         $layout->render();
     }
 
@@ -40,9 +44,18 @@ class App
     private function getRoutes(): array
     {
         return [
-            '/' => 'home',
-            '/article' => 'article',
-            '/body' => 'body'
+            'homepage' => [
+                'path'=>'/',
+                'page'=>'home'
+            ],
+            'article' => [
+                'path'=>'/article/{id}',
+                'page'=>'article'
+                ],
+            'body'=> [
+                'path'=>'/body',
+                'page'=>'body'
+            ]
         ];
     }
 }
