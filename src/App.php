@@ -24,6 +24,18 @@ class App
      */
     public function run(): void
     {
+        try {
+            echo 'Przed wyjatkiem';
+            throw new PageNotFoundException;
+        } catch(PageNotFoundException $exception) {
+            echo 'Page not found';
+        } catch (ServiceNotFoundException $exception) {
+            echo 'Servicee not found';
+        }catch (\Exception $exception){
+            echo 'other';
+
+        }
+
         //$this->processRouting();
         $this->request = Request::initialize();
         $serviceContainer = ServiceContainer::getInstance();
@@ -31,17 +43,13 @@ class App
 
         /** @var Router $router */
         $matchedRoute = $router->match($this->request);
-        if ($matchedRoute instanceof ControllerInterface) {
-            $response = $matchedRoute($this->request);
-            foreach ($response->getHeaders() as $header) {
+        $response = $matchedRoute($this->request);
+        foreach ($response->getHeaders() as $header) {
                 header($header);
-            }
-
-            echo $response->getBody();
-
-        } else {
-            $layout = new Layout($this->request, $matchedRoute);
-            $layout->render();
         }
+
+        echo $response->getBody();
+
     }
+
 }

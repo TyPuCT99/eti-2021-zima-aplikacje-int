@@ -47,14 +47,18 @@ class Layout
 
     /**
      * Process and render layout
+     * @return string
      */
-    public function render(): void
+    public function render(): string
     {
         extract([
             'title' => $this->title,
             'content' => $this->renderTemplate()
         ]);
+
+        ob_start();
         include __DIR__ . "/../layouts/{$this->name}.php";
+        return ob_get_clean();
     }
 
     /**

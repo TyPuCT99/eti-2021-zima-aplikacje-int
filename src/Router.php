@@ -36,7 +36,15 @@ class Router
             $params = $this->checkRoute($routeSegments, $requestPathSegments);
             if ($params !== false) {
                 $request->setPathParameters($params);
-                return $routeConfig['controller'] ?? $routeConfig['page'];
+                $controllerFactory = $routeConfig['controller'] ?? null;
+                if (is_callable($controllerFactory)) {
+                    return $controllerFactory();
+                } else {
+                    if ($controllerFactory instanceof ControllerInterface) {
+                        return $controllerFactory;
+                    }
+                }
+                throw new \Exception('Page not found! Sorry!');
             }
         }
         throw new \Exception('Page not found! Sorry!');
