@@ -24,17 +24,17 @@ class App
      */
     public function run(): void
     {
-        try {
-            echo 'Przed wyjatkiem';
-            throw new PageNotFoundException;
-        } catch(PageNotFoundException $exception) {
-            echo 'Page not found';
-        } catch (ServiceNotFoundException $exception) {
-            echo 'Servicee not found';
-        }catch (\Exception $exception){
-            echo 'other';
-
-        }
+//        try {
+//            echo 'Przed wyjatkiem';
+//            throw new PageNotFoundException;
+//        } catch(PageNotFoundException $exception) {
+//            echo 'Page not found';
+//        } catch (ServiceNotFoundException $exception) {
+//            echo 'Servicee not found';
+//        }catch (\Exception $exception){
+//            echo 'other';
+//
+//        }
 
         //$this->processRouting();
         $this->request = Request::initialize();
