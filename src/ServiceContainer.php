@@ -19,14 +19,14 @@ class ServiceContainer
                     'homepage' => [
                         'path' => '/',
                         'controller' => function () {
-                    return new PageController('home', 'default');
-                    }
-                   ],
+                            return new PageController('home', 'default');
+                        }
+                    ],
                     'article' => [
                         'path' => '/article/{id}',
                         'controller' => function () {
-                           return new PageController('article', 'default');
-                    }
+                            return new PageController('article', 'default');
+                        }
                     ],
                     'body' => [
                         'path' => '/body',

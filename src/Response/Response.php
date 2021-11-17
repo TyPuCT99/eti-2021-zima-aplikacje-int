@@ -4,9 +4,9 @@ namespace App\Response;
 
 class Response
 {
-private $headers;
-private $body;
-private $status;
+    private $headers;
+    private $body;
+    private $status;
 
 
     public function __construct($body, array $headers = [], int $status = 200)

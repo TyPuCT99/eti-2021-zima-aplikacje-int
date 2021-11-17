@@ -70,7 +70,7 @@ class Router
         return $params;
     }
 
-    public function generate($name, $params = [])
+    public function generate($name, $params = []):string
     {
         if (!isset($this->routes[$name])) {
             throw new \Exception(sprintf('Route "%s" not found.', $name));
