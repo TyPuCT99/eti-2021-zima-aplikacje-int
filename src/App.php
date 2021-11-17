@@ -2,9 +2,9 @@
 
 namespace App;
 
-use App\Controllers\ControllerInterface;
 use App\Exception\PageNotFoundException;
 use App\Response\ErrorResponse;
+use Exception;
 
 /**
  * Application entry point.
@@ -41,6 +41,7 @@ class App
             $response = new ErrorResponse($router, $exception, 500);
         }
 
+
         foreach ($response->getHeaders() as $header) {
             header($header);
         }
@@ -48,4 +49,5 @@ class App
         echo $response->getBody();
 
     }
+
 }
