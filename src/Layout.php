@@ -23,26 +23,28 @@ class Layout
     private $title;
 
     /**
-     * @var Request
+     * @var array
      */
-    private $request;
+    private $params;
 
     /**
      * @param string $page
      * @param string $name
      * @param string $title
-     * @param Request $request
+     * @param array $params
      */
+
     public function __construct(
-        Request $request,
         string $page,
-        string $name = 'default',
-        string $title = 'APSL Website!'
-    ) {
+        string $name,
+        string $title = 'APSL Website!',
+        array  $params
+    )
+    {
         $this->page = $page;
         $this->name = $name;
         $this->title = $title;
-        $this->request = $request;
+        $this->params = $params;
     }
 
     /**
@@ -51,10 +53,10 @@ class Layout
      */
     public function render(): string
     {
-        extract([
+        extract(array_merge($this->params, [
             'title' => $this->title,
             'content' => $this->renderTemplate()
-        ]);
+        ]));
 
         ob_start();
         include __DIR__ . "/../layouts/{$this->name}.php";
@@ -67,10 +69,7 @@ class Layout
     private function renderTemplate(): string
     {
         ob_start();
-        extract([
-            'request' => $this->request,
-            'router' => ServiceContainer::getInstance()->get('router')
-        ]);
+        extract($this->params);
         include "../templates/{$this->page}.php";
 
         return ob_get_clean();

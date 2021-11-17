@@ -4,11 +4,26 @@ namespace App\Response;
 
 class Response
 {
+    /**
+     * @var array
+     */
     private $headers;
+
+    /**
+     * @var string
+     */
     private $body;
+
+    /**
+     * @var int
+     */
     private $status;
 
-
+    /**
+     * @param $body
+     * @param array $headers
+     * @param int $status
+     */
     public function __construct($body, array $headers = [], int $status = 200)
     {
         $this->body = $body;
@@ -16,13 +31,17 @@ class Response
         $this->status = $status;
     }
 
-    public function getHeaders(){
+    /**
+     * @return array
+     */
+    public function getHeaders(): array
+    {
         $genericHeaders = [
             sprintf('HTTP/1.1 %s', $this->status),
-            sprintf('Content-Length: %s', strlen($this->body))
+            sprintf('Content-Length: %d', strlen($this->body))
         ];
-        return array_merge($genericHeaders, $this->headers);
 
+        return array_merge($genericHeaders, $this->headers);
     }
 
     /**
