@@ -13,8 +13,6 @@ class Session
 
     }
 
-
-
     public function start()
     {
         $this->sessionStarted = true;
