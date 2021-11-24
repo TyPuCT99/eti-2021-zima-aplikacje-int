@@ -42,7 +42,7 @@ class DoLoginController implements ControllerInterface
             $this->router->generate('home')
         );
 
-        $username = "andriy";
+        $username = "Andriy";
         $password = "pass123";
 
         $isPost = $request->isPost();
