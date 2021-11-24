@@ -4,10 +4,7 @@ namespace App\Controllers;
 
 use App\Layout;
 use App\Request;
-use App\Response\LayoutResponse;
 use App\Response\Response;
-use App\Router;
-use App\ServiceContainer;
 
 class PageController implements ControllerInterface
 {
@@ -20,20 +17,10 @@ class PageController implements ControllerInterface
      * @var string
      */
     private $layout;
-    /**
-     * @var Router
-     */
-    private Router $router;
 
-    /**
-     * @param string $name
-     * @param string $layout
-     */
-    public function __construct(Router $router, string $name, string $layout)
-    {
+    public function __construct(string $name, string $layout){
         $this->name = $name;
         $this->layout = $layout;
-        $this->router = $router;
     }
 
     /**
@@ -42,13 +29,9 @@ class PageController implements ControllerInterface
      */
     public function __invoke(Request $request): Response
     {
-//        $session = ServiceContainer::getInstance()->get('session');
-//        $session->start();
-//        $session->set('user', "TyPuCT");
-        return new LayoutResponse($this->name, [
-            'request' => $request,
-            'router' => $this->router,
-            'session' => ServiceContainer::getInstance()->get('session')
-        ], $this->layout);
+        $body = new Layout($request, $this->name, $this->layout);
+        return new Response($body->render());
+
+
     }
 }

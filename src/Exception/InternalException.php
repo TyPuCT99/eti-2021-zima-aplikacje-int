@@ -2,7 +2,9 @@
 
 namespace App\Exception;
 
-class InternalException extends \Exception
+use Exception;
+
+class InternalException extends Exception
 {
 
 }

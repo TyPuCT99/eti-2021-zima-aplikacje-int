@@ -3,7 +3,7 @@
 namespace App;
 
 use App\Controllers\PageController;
-use App\session\Session;
+use App\Controllers\SimpleController;
 
 class ServiceContainer
 {
@@ -14,36 +14,32 @@ class ServiceContainer
     private function __construct()
     {
         $this->services['router'] = function () {
-            $router = new Router();
-
-            $router->addRoute('home', [
-                'path' => '/',
-                'controller' => function () use ($router) {
-                    return new PageController($router, 'home', 'default');
-                }
-            ]);
-            $router->addRoute('article', [
-                'path' => '/article',
-                'controller' => function () use ($router) {
-                    return new PageController($router, 'article', 'default');
-                }
-            ]);
-            $router->addRoute('body', [
-                'path' => '/body',
-                'controller' => function () use ($router) {
-                    return new PageController($router, 'body', 'default');
-                }
-            ]);
-
-            $router->addRoute('invalid', [
-                'path' => '/invalid'
-            ]);
-
-            return $router;
-        };
-        $this->services['session'] = function (){
-
-            return new Session();
+            return new Router(
+                [
+                    'homepage' => [
+                        'path' => '/',
+                        'controller' => function () {
+                            return new PageController('home', 'default');
+                        }
+                    ],
+                    'article' => [
+                        'path' => '/article/{id}',
+                        'controller' => function () {
+                            return new PageController('article', 'default');
+                        }
+                    ],
+                    'body' => [
+                        'path' => '/body',
+                        'controller' => function () {
+                            return new PageController('body', 'default');
+                        }
+                    ],
+                    'responseTest' => [
+                        'path' => '/jsonTest',
+                        'controller' => new SimpleController()
+                    ]
+                ]
+            );
         };
     }
 
@@ -72,6 +68,7 @@ class ServiceContainer
 
         return $this->services[$id]($this);
     }
+
 
     /**
      * @param string $id

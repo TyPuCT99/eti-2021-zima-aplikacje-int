@@ -2,9 +2,9 @@
 
 namespace App;
 
-use App\Exception\PageNotFoundException;
-use App\Response\ErrorResponse;
-use Exception;
+use App\Controllers\ControllerInterface;
+use App\Response\PageNotFoundResponse;
+use mysql_xdevapi\Exception;
 
 /**
  * Application entry point.
@@ -26,28 +26,24 @@ class App
      */
     public function run(): void
     {
-        //$this->processRouting();
         $this->request = Request::initialize();
+
         $serviceContainer = ServiceContainer::getInstance();
+
         $router = $serviceContainer->get('router');
 
-        try {
-            /** @var Router $router */
+        try{
             $matchedRoute = $router->match($this->request);
             $response = $matchedRoute($this->request);
-        } catch (PageNotFoundException $exception) {
-            $response = new ErrorResponse($router, $exception, 404);
-        } catch (Exception $exception) {
-            $response = new ErrorResponse($router, $exception, 500);
+        }catch(Exception $exception) {
+            $response = new PageNotFoundResponse();
         }
 
-
-        foreach ($response->getHeaders() as $header) {
+        foreach($response->getHeaders() as $header) {
             header($header);
         }
 
         echo $response->getBody();
 
     }
-
 }
