@@ -2,12 +2,9 @@
 
 namespace App;
 
-use App\Controllers\ControllerInterface;
 use App\Exception\PageNotFoundException;
-use App\Exception\ServiceNotFoundException;
 use App\Response\ErrorResponse;
-use \mysql_xdevapi\Exception;
-use App\Session;
+use Exception;
 
 /**
  * Application entry point.
@@ -49,5 +46,6 @@ class App
         }
 
         echo $response->getBody();
+
     }
 }

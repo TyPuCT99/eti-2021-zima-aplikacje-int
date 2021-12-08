@@ -3,7 +3,7 @@
   "type": "project",
   "license": "MIT",
   "require": {
-    "ext-json": "*"
+
   },
   "autoload": {
     "psr-4": {

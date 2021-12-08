@@ -38,9 +38,8 @@ class Layout
         string $page,
         string $name,
         string $title = 'APSL Website!',
-        array  $params
-    )
-    {
+        array $params
+    ) {
         $this->page = $page;
         $this->name = $name;
         $this->title = $title;

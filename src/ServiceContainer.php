@@ -6,6 +6,8 @@ use App\Controllers\DoLoginController;
 use App\Controllers\LogoutController;
 use App\Controllers\PageController;
 use App\Controllers\SimpleController;
+use App\Repository\InMemoryUserRepository;
+use App\Security\Sha1PasswordEncoder;
 use App\Session\Session;
 
 class ServiceContainer
@@ -40,30 +42,45 @@ class ServiceContainer
 
             $router->addRoute('do_login', [
                 'path' => '/do_login',
-                'controller' => function() use ($router) {
+                'controller' => function () use ($router) {
                     return new DoLoginController(
+                        $this->get('session'),
+                        $router,
+                        $this->get('user_repository'),
+                        $this->get('password_encoder')
+                    );
+                }
+            ]);
+            $router->addRoute('logout', [
+                'path' => '/logout',
+                'controller' => function () use ($router) {
+                    return new LogoutController(
                         $this->get('session'),
                         $router
                     );
                 }
             ]);
 
-            $router->addRoute('logout', [
-                'path' => '/logout',
-                'controller' => function() use ($router) {
-                    return new LogoutController($this->get('session'), $router);
-                }
-            ]);
-
-            $router->addRoute('invalid', [
-                'path' => '/invalid'
-            ]);
-
             return $router;
         };
 
-        $this->services['session'] = function (){
+        $this->services['session'] = function () {
             return new Session();
+        };
+
+        $this->services['user_repository'] = function () {
+            return InMemoryUserRepository::createFromPlainPasswords(
+                $this->get('password_encoder'),
+                [
+                    'arek' => 'test123',
+                    'romek' => 'pass123',
+                    'tester' => 'haslo123'
+                ]
+            );
+        };
+
+        $this->services['password_encoder'] = function () {
+            return new Sha1PasswordEncoder();
         };
     }
 
